@@ -14,4 +14,16 @@ public class Studentctl{
         return ser.saveData(st);
     }
     @getMapping("/{id}")
+    public studententity getStudent(@PathVariable int id){
+        return ser,getById(id);
+    }
+    @getMapping("/all")
+    public Collection<Studententity>getAllStudents(){
+        return ser.getAll();
+    }
+    @Putmapping("/update/{id}")
+    public Studententity updateStudent(@PathVariable int id,@RequestBody Studententity st){
+        Studententity updated=ser.updateStudent(id,st);
+        if(updated!=null)
+    }
 }
