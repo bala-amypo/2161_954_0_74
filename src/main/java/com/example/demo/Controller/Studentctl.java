@@ -24,6 +24,10 @@ public class Studentctl{
     @Putmapping("/update/{id}")
     public Studententity updateStudent(@PathVariable int id,@RequestBody Studententity st){
         Studententity updated=ser.updateStudent(id,st);
-        if(updated!=null)
+        if(updated!=null){
+            return updated;
+        }else{
+            throw new RuntimeException("Student with ID"+id+"not found");
+        }
     }
 }
