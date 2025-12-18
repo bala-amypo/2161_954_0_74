@@ -1,61 +1,66 @@
-package com.example.demo.controller;
+package com.example.demo.entity;
 
-import java.util.List;
-import java.util.Optional;
+import jakarta.persistence.*;
 
-import org.springframework.web.bind.annotation.*;
+@Entity
+@Table(name = "users")
+public class UserEntity {
 
-import com.example.demo.entity.UserEntity;
-import com.example.demo.services.UserServices;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-@RestController
-@RequestMapping("/user")
-public class UserController {
-    private final UserServices userService;
-    public UserController(UserServices userService) {
-        this.userService = userService;
+    private String name;
+    private String email;
+    private String password;
+    private String role;
+
+    public UserEntity() {}
+
+    public UserEntity(Long id, String name, String email, String password, String role) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
-    @PostMapping
-    public UserEntity createUser(@RequestBody UserEntity user) {
-        return userService.insertUser(user);
+
+    public Long getId() {
+        return id;
     }
-    @GetMapping
-    public List<UserEntity> getAllUsers() {
-        return userService.getAllUser();
+
+    public void setId(Long id) {
+        this.id = id;
     }
-    @GetMapping("/{id}")
-    public Optional<UserEntity> getUserById(@PathVariable Long id) {
-        return userService.getOneUser(id);
+
+    public String getName() {
+        return name;
     }
-    @PutMapping("/{id}")
-    public String updateUser(@PathVariable Long id, @RequestBody UserEntity userData) {
 
-        Optional<UserEntity> existingUser = userService.getOneUser(id);
-
-        if (existingUser.isPresent()) {
-            UserEntity user = existingUser.get();
-
-            user.setName(userData.getName());
-            user.setEmail(userData.getEmail());
-            user.setPassword(userData.getPassword());
-            user.setRole(userData.getRole());
-
-            userService.insertUser(user);
-            return "User Updated Successfully";
-        }
-
-        return "User Not Found";
+    public void setName(String name) {
+        this.name = name;
     }
-    @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable Long id) {
 
-        Optional<UserEntity> user = userService.getOneUser(id);
-
-        if (user.isPresent()) {
-            userService.deleteUser(id);
-            return "User Deleted Successfully";
-        }
-
-        return "User Not Found";
+    public String getEmail() {
+        return email;
     }
-}
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
